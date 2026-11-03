@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuis IPA Kelas 7 — Unsur, Senyawa, dan Campuran</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --teal:#0d9488;--teal-d:#0f766e;--teal-l:#ccfbf1;--teal-xl:#f0fdfa;
+  --blue:#2563eb;--blue-l:#dbeafe;
+  --purple:#7c3aed;--purple-l:#ede9fe;
+  --amber:#d97706;--amber-l:#fef3c7;
+  --green:#16a34a;--green-l:#dcfce7;
+  --red:#dc2626;--red-l:#fee2e2;
+  --g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;--g300:#cbd5e1;
+  --g400:#94a3b8;--g500:#64748b;--g600:#475569;--g700:#334155;--g800:#1e293b;--g900:#0f172a;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;
+  background:linear-gradient(160deg,#042f2e 0%,#115e59 45%,#0f172a 100%);
+  display:flex;flex-direction:column;align-items:center;
+  padding:24px 16px 60px;color:var(--g800);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(2px 2px at 12% 22%,rgba(94,234,212,.35) 0%,transparent 100%),
+    radial-gradient(1px 1px at 82% 12%,rgba(153,246,228,.5) 0%,transparent 100%),
+    radial-gradient(2px 2px at 48% 68%,rgba(94,234,212,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 92% 52%,rgba(153,246,228,.4) 0%,transparent 100%),
+    radial-gradient(2px 2px at 22% 86%,rgba(94,234,212,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 66% 34%,rgba(153,246,228,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 6% 60%,rgba(94,234,212,.4) 0%,transparent 100%),
+    radial-gradient(2px 2px at 72% 92%,rgba(153,246,228,.3) 0%,transparent 100%);}
+
+/* HEADER */
+.header{text-align:center;margin-bottom:22px;max-width:720px;width:100%;position:relative;z-index:1;}
+.header-badge{display:inline-flex;gap:6px;background:rgba(20,184,166,.22);border:1px solid rgba(45,212,191,.45);
+  color:#99f6e4;font-size:12px;font-weight:700;padding:4px 16px;border-radius:99px;margin-bottom:10px;
+  letter-spacing:.06em;text-transform:uppercase;}
+.header h1{font-size:26px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:4px;text-shadow:0 2px 24px rgba(20,184,166,.5);}
+.header p{font-size:14px;color:#99f6e4;}
+
+/* CARD */
+.card{background:#fff;border-radius:22px;box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 0 1px rgba(153,246,228,.15);
+  max-width:720px;width:100%;overflow:hidden;position:relative;z-index:1;}
+
+/* TOP BAR */
+.top-bar{padding:20px 24px 0;}
+.meta-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap;}
+.topic-badge{font-size:10.5px;font-weight:700;padding:4px 11px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+.g1{background:var(--teal-l);color:#115e59;}
+.g2{background:var(--purple-l);color:#5b21b6;}
+.g3{background:var(--amber-l);color:#92400e;}
+.g4{background:var(--blue-l);color:#1e40af;}
+.q-counter{font-size:13px;color:var(--g400);font-weight:600;}
+.answered-pill{font-size:12.5px;font-weight:700;color:#fff;background:var(--teal-d);padding:3px 12px;border-radius:99px;white-space:nowrap;}
+.prog-track{height:6px;background:var(--g100);border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,#0f766e,#2dd4bf);border-radius:99px;transition:width .4s ease;}
+
+/* BODY */
+.card-body{padding:20px 24px 24px;}
+.q-num{font-size:11px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.q-title{font-size:15.5px;font-weight:600;color:var(--g900);line-height:1.6;margin-bottom:16px;}
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:13px 15px;border:1.5px solid var(--g200);border-radius:10px;
+  cursor:pointer;transition:all .15s;background:#fff;user-select:none;}
+.opt:hover{border-color:var(--teal);background:var(--teal-xl);transform:translateX(2px);}
+.opt.selected{border-color:var(--teal-d);background:var(--teal-xl);}
+.opt-key{width:28px;height:28px;flex-shrink:0;border-radius:7px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;background:var(--g100);color:var(--g600);margin-top:1px;transition:all .15s;}
+.opt.selected .opt-key{background:var(--teal-d);color:#fff;}
+.opt-text{font-size:14px;color:var(--g800);line-height:1.5;padding-top:3px;}
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.hint-text{font-size:12px;color:var(--g400);flex:1;text-align:center;}
+.btn{padding:10px 20px;border-radius:9px;border:1.5px solid var(--g300);background:#fff;color:var(--g700);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;}
+.btn:hover:not(:disabled){background:var(--g100);}
+.btn:disabled{opacity:.35;cursor:not-allowed;}
+.btn-primary{background:var(--teal-d);border-color:var(--teal-d);color:#fff;}
+.btn-primary:hover:not(:disabled){background:#115e59;}
+
+/* UMPAN BALIK LANGSUNG */
+.opt.locked{cursor:default;}
+.opt.locked:hover{transform:none;background:#fff;border-color:var(--g200);}
+.opt.correct,.opt.correct:hover{border-color:var(--green)!important;background:var(--green-l)!important;}
+.opt.correct .opt-key{background:var(--green)!important;color:#fff!important;}
+.opt.wrong,.opt.wrong:hover{border-color:var(--red)!important;background:var(--red-l)!important;}
+.opt.wrong .opt-key{background:var(--red)!important;color:#fff!important;}
+.feedback{display:none;border-radius:12px;padding:14px 16px;margin-bottom:16px;}
+.feedback.show{display:block;}
+.feedback.ok{background:#f0fdf4;border:1.5px solid #86efac;}
+.feedback.bad{background:#fef2f2;border:1.5px solid #fca5a5;}
+.fb-head{font-size:14px;font-weight:800;margin-bottom:6px;}
+.feedback.ok .fb-head{color:#166534;}
+.feedback.bad .fb-head{color:#991b1b;}
+.fb-key{font-size:13px;color:var(--g700);margin-bottom:10px;line-height:1.5;}
+.fb-title{font-size:11px;font-weight:700;color:var(--teal-d);text-transform:uppercase;letter-spacing:.06em;margin:4px 0 8px;}
+
+/* START */
+#start-screen{padding:32px 24px;}
+.start-icon{text-align:center;font-size:52px;margin-bottom:10px;}
+.start-title{font-size:22px;font-weight:800;color:var(--g900);margin-bottom:6px;text-align:center;}
+.start-desc{font-size:14px;color:var(--g500);line-height:1.6;margin-bottom:18px;text-align:center;}
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+.info-card{background:var(--g50);border:1px solid var(--g200);border-radius:10px;padding:12px 6px;text-align:center;}
+.info-card .num{font-size:22px;font-weight:800;color:var(--teal-d);}
+.info-card .lab{font-size:10px;color:var(--g400);text-transform:uppercase;letter-spacing:.04em;margin-top:2px;}
+.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.topic-card{background:var(--g50);border:1px solid var(--g200);border-radius:12px;padding:14px 16px;display:flex;gap:10px;}
+.topic-icon{font-size:22px;flex-shrink:0;}
+.topic-info strong{font-size:13px;color:var(--g800);display:block;margin-bottom:2px;}
+.topic-info span{font-size:12px;color:var(--g500);line-height:1.45;display:block;}
+.notice-box{background:#fef9c3;border:1px solid #fde047;border-radius:10px;padding:12px 16px;margin-bottom:18px;
+  font-size:13px;color:#854d0e;line-height:1.5;}
+.btn-start{width:100%;padding:14px;border-radius:10px;border:none;background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;
+  font-family:inherit;font-size:16px;font-weight:800;cursor:pointer;transition:opacity .15s,transform .1s;
+  box-shadow:0 4px 20px rgba(13,148,136,.45);}
+.btn-start:hover{opacity:.9;}
+.btn-start:active{transform:scale(.98);}
+
+/* SCORE */
+#score-screen{display:none;padding:28px 24px 32px;}
+.score-header{text-align:center;margin-bottom:22px;}
+.trophy{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 14px;}
+.trophy.gold{background:linear-gradient(135deg,#fef3c7,#fde68a);}
+.trophy.silver{background:linear-gradient(135deg,#f1f5f9,#e2e8f0);}
+.trophy.bronze{background:linear-gradient(135deg,#fed7aa,#fdba74);}
+.score-big{font-size:48px;font-weight:800;color:var(--g900);line-height:1;margin-bottom:4px;}
+.score-label{font-size:14px;color:var(--g400);margin-bottom:8px;}
+.score-msg{font-size:18px;font-weight:700;color:var(--g900);margin-bottom:4px;}
+.score-sub{font-size:13px;color:var(--g500);margin-bottom:20px;}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.stat{background:var(--g50);border:1px solid var(--g200);border-radius:10px;padding:12px 8px;text-align:center;}
+.stat-num{font-size:22px;font-weight:800;color:var(--g900);}
+.stat-lab{font-size:10px;color:var(--g400);text-transform:uppercase;letter-spacing:.04em;margin-top:2px;}
+.stat.green .stat-num{color:var(--green);}
+.stat.red .stat-num{color:var(--red);}
+.section-title{font-size:12px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
+.tp-bars{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.tp-row{display:flex;align-items:center;gap:10px;}
+.tp-label{font-size:12px;color:var(--g700);min-width:175px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tp-track{flex:1;height:7px;background:var(--g200);border-radius:99px;overflow:hidden;}
+.tp-fill{height:100%;border-radius:99px;transition:width .6s .3s ease;}
+.f1{background:linear-gradient(90deg,#0f766e,#2dd4bf);}
+.f2{background:linear-gradient(90deg,#5b21b6,#a78bfa);}
+.f3{background:linear-gradient(90deg,#92400e,#fbbf24);}
+.f4{background:linear-gradient(90deg,#1e40af,#60a5fa);}
+.tp-score{font-size:12px;font-weight:700;color:var(--g500);min-width:34px;text-align:right;}
+
+/* REVIEW */
+.review-list{display:flex;flex-direction:column;gap:14px;margin-bottom:24px;}
+.review-item{border-radius:12px;overflow:hidden;border:1.5px solid var(--g200);}
+.review-item.correct{border-color:#86efac;}
+.review-item.wrong{border-color:#fca5a5;}
+.review-header{display:flex;gap:10px;padding:12px 16px;}
+.review-item.correct .review-header{background:#f0fdf4;}
+.review-item.wrong .review-header{background:#fef2f2;}
+.review-badge{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;color:#fff;}
+.review-item.correct .review-badge{background:var(--green);}
+.review-item.wrong .review-badge{background:var(--red);}
+.review-q{font-size:13px;font-weight:600;color:var(--g800);line-height:1.55;}
+.review-q .soal-num{display:block;font-size:11px;color:var(--g400);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
+.review-body{padding:12px 16px;background:#fff;}
+.ans-block{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
+.ans-row{display:flex;gap:8px;align-items:flex-start;}
+.ans-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;padding-top:2px;min-width:104px;}
+.ans-label.correct{color:var(--green);}
+.ans-label.wrong{color:var(--red);}
+.ans-text{font-size:13px;color:var(--g700);line-height:1.5;}
+.pembahasan-box{background:var(--teal-xl);border:1px solid #99f6e4;border-radius:8px;padding:12px 14px;}
+.pb-title{display:block;font-size:11px;font-weight:700;color:var(--teal-d);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.step{display:flex;gap:8px;margin-bottom:5px;}
+.step:last-of-type{margin-bottom:0;}
+.step-num{font-size:11px;font-weight:700;color:var(--teal-d);background:var(--teal-l);border-radius:50%;width:19px;height:19px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-text{font-size:13px;color:var(--g700);line-height:1.6;}
+.kesimpulan{display:flex;gap:8px;margin-top:10px;background:#fff;border-radius:6px;padding:8px 10px;border:1px solid #99f6e4;}
+.kesimpulan-text{font-size:13px;color:var(--teal-d);font-weight:700;line-height:1.45;}
+.btn-restart{width:100%;padding:13px;border-radius:10px;border:none;background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;
+  font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;transition:opacity .15s;box-shadow:0 4px 15px rgba(13,148,136,.4);}
+.btn-restart:hover{opacity:.9;}
+
+@media(max-width:560px){
+  body{padding:14px 10px 48px;}
+  .header h1{font-size:20px;}
+  .card-body,.top-bar{padding-left:14px;padding-right:14px;}
+  #start-screen,#score-screen{padding:20px 14px;}
+  .info-grid{grid-template-columns:repeat(2,1fr);}
+  .topic-grid{grid-template-columns:1fr;}
+  .q-title{font-size:14.5px;}
+  .opt-text{font-size:13px;}
+  .tp-label{min-width:125px;font-size:11px;}
+  .ans-label{min-width:84px;}
+  .btn{padding:9px 14px;font-size:13px;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">🧪 IPA Kelas 7</div>
+  <h1>Kuis Unsur, Senyawa, dan Campuran</h1>
+  <p>Ulangan Harian &bull; 40 Soal Pilihan Ganda</p>
+</div>
+
+<div class="card">
+
+  <!-- START -->
+  <div id="start-screen">
+    <div class="start-icon">🧪</div>
+    <div class="start-title">Siap Mengerjakan Kuis?</div>
+    <div class="start-desc">Pilih jawaban pada setiap soal. Begitu kamu menjawab, kunci jawaban dan pembahasan langkah demi langkah langsung ditampilkan.</div>
+    <div class="info-grid">
+      <div class="info-card"><div class="num">40</div><div class="lab">Soal</div></div>
+      <div class="info-card"><div class="num">4</div><div class="lab">Kelompok Materi</div></div>
+      <div class="info-card"><div class="num">100</div><div class="lab">Poin</div></div>
+      <div class="info-card"><div class="num">✓</div><div class="lab">Pembahasan</div></div>
+    </div>
+    <div class="topic-grid">
+      <div class="topic-card"><div class="topic-icon">⚛️</div><div class="topic-info"><strong>Unsur &amp; Lambang Unsur</strong><span>14 soal — ciri unsur, lambang, unsur logam, wujud, unsur dalam tubuh</span></div></div>
+      <div class="topic-card"><div class="topic-icon">💧</div><div class="topic-info"><strong>Senyawa</strong><span>8 soal — pengertian, rumus, senyawa biner &amp; terner, sifat senyawa</span></div></div>
+      <div class="topic-card"><div class="topic-icon">🥣</div><div class="topic-info"><strong>Campuran &amp; Penggolongan Zat</strong><span>8 soal — homogen, paduan logam, perbedaan senyawa-campuran, kadar</span></div></div>
+      <div class="topic-card"><div class="topic-icon">🏭</div><div class="topic-info"><strong>Pemanfaatan Zat</strong><span>10 soal — kegunaan senyawa dan logam dalam kehidupan sehari-hari</span></div></div>
+    </div>
+    <div class="notice-box">💡 <strong>Catatan:</strong> Setelah memilih, jawaban tidak dapat diubah. Baca pembahasannya dulu, lalu lanjut ke soal berikutnya.</div>
+    <button class="btn-start" onclick="startQuiz()">✏️ Mulai Kuis</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz-screen" style="display:none;">
+    <div class="top-bar">
+      <div class="meta-row">
+        <span class="topic-badge g1" id="topic-badge"></span>
+        <span class="q-counter" id="q-counter"></span>
+        <span class="answered-pill" id="answered-pill"></span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+    </div>
+    <div class="card-body">
+      <div class="q-num" id="q-num"></div>
+      <div class="q-title" id="q-title"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="nav-row">
+        <button class="btn" id="prev-btn" onclick="prevQ()">← Sebelumnya</button>
+        <span class="hint-text" id="hint-txt"></span>
+        <button class="btn btn-primary" id="next-btn" onclick="nextQ()">Selanjutnya →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCORE -->
+  <div id="score-screen">
+    <div class="score-header">
+      <div class="trophy" id="trophy">🏆</div>
+      <div class="score-big" id="score-big">0</div>
+      <div class="score-label">dari 100 poin</div>
+      <div class="score-msg" id="score-msg"></div>
+      <div class="score-sub" id="score-sub"></div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat green"><div class="stat-num" id="s-benar">0</div><div class="stat-lab">✓ Benar</div></div>
+      <div class="stat red"><div class="stat-num" id="s-salah">0</div><div class="stat-lab">✗ Salah / Kosong</div></div>
+      <div class="stat"><div class="stat-num" id="s-pct">0%</div><div class="stat-lab">Persentase</div></div>
+    </div>
+    <div class="section-title">Capaian per Kelompok Materi</div>
+    <div class="tp-bars" id="tp-bars"></div>
+    <div class="section-title">📝 Rekap Kunci Jawaban &amp; Pembahasan</div>
+    <div class="review-list" id="review-list"></div>
+    <button class="btn-restart" onclick="restartQuiz()">🔄 Ulangi Kuis</button>
+  </div>
+
+</div>
+
+<script>
+const KEYS = ["A", "B", "C", "D"];
+
+/* Kelompok materi: 1 Unsur & Lambang, 2 Senyawa, 3 Campuran & Penggolongan, 4 Pemanfaatan Zat */
+const GROUPS = {
+  1: { label: "⚛️ Unsur & Lambang Unsur", cls: "g1", fill: "f1" },
+  2: { label: "💧 Senyawa", cls: "g2", fill: "f2" },
+  3: { label: "🥣 Campuran & Penggolongan Zat", cls: "g3", fill: "f3" },
+  4: { label: "🏭 Pemanfaatan Zat", cls: "g4", fill: "f4" }
+};
+
+/* q: soal | o: pilihan | a: indeks jawaban benar (0=A) | pb: langkah pembahasan | ks: kesimpulan */
+const Q = [
+{g:1,
+ q:"Zat murni yang tidak dapat diuraikan lagi menjadi zat-zat yang lebih sederhana melalui reaksi kimia dinamakan ....",
+ o:["Senyawa","Atom","Unsur","Neutron"], a:2,
+ pb:["Zat murni adalah zat yang komposisinya tetap dan sifatnya seragam. Zat murni ada dua macam: unsur dan senyawa.",
+     "Senyawa masih dapat diuraikan menjadi unsur-unsur penyusunnya lewat reaksi kimia, sehingga bukan jawabannya.",
+     "Atom dan neutron adalah partikel penyusun materi, bukan nama jenis zat murni.",
+     "Zat murni yang sudah tidak dapat diuraikan lagi menjadi zat yang lebih sederhana disebut unsur, misalnya besi (Fe) dan oksigen (O)."],
+ ks:"Jawaban: C. Unsur."},
+
+{g:1,
+ q:"Unsur yang terdapat di alam bebas biasanya tidak dalam bentuk persenyawaan. Berikut yang tidak termasuk unsur-unsur di alam bebas adalah ....",
+ o:["Natrium","Tembaga","Seng","Perak"], a:0,
+ pb:["Unsur yang dapat ditemukan bebas (tidak bersenyawa) umumnya logam yang kurang reaktif, misalnya tembaga dan perak.",
+     "Natrium termasuk logam alkali yang sangat reaktif: bereaksi hebat dengan udara dan air.",
+     "Karena sangat reaktif, natrium di alam selalu berada dalam bentuk senyawa, misalnya natrium klorida (garam dapur, NaCl).",
+     "Jadi, di antara pilihan yang ada, natrium adalah unsur yang tidak ditemukan bebas di alam."],
+ ks:"Jawaban: A. Natrium."},
+
+{g:1,
+ q:"Jika suatu unsur dilambangkan dengan satu huruf, maka harus digunakan huruf ....",
+ o:["Vokal","Konsonan","Kapital","Latin"], a:2,
+ pb:["Lambang unsur ditulis menurut aturan yang disepakati secara internasional.",
+     "Jika lambang hanya satu huruf, huruf tersebut harus ditulis dengan huruf kapital. Contoh: H (hidrogen), C (karbon), O (oksigen).",
+     "Jika lambang terdiri atas dua huruf, huruf pertama kapital dan huruf kedua kecil. Contoh: Na (natrium), Fe (besi)."],
+ ks:"Jawaban: C. Kapital."},
+
+{g:1,
+ q:"Unsur berikut yang tidak dilambangkan dengan satu huruf adalah ....",
+ o:["Emas","Hidrogen","Oksigen","Karbon"], a:0,
+ pb:["Periksa lambang tiap unsur pada pilihan.",
+     "Emas = Au (dari bahasa Latin Aurum), terdiri atas dua huruf.",
+     "Hidrogen = H, Oksigen = O, Karbon = C, semuanya satu huruf.",
+     "Jadi, unsur yang tidak dilambangkan dengan satu huruf adalah emas."],
+ ks:"Jawaban: A. Emas (Au)."},
+
+{g:1,
+ q:"Tiga unsur yang paling dominan pada tubuh manusia adalah ....",
+ o:["Nitrogen, Oksigen dan Hidrogen","Oksigen, karbon dan hidrogen","Oksigen, hidrogen, dan natrium","Helium, natrium dan alumunium"], a:1,
+ pb:["Unsur penyusun tubuh manusia berdasarkan persentase massanya: oksigen ±65%, karbon ±18%, hidrogen ±10%, nitrogen ±3%.",
+     "Tiga terbesar adalah oksigen, karbon, dan hidrogen.",
+     "Pilihan A memuat nitrogen (jumlahnya jauh lebih sedikit dari karbon), pilihan C memuat natrium (jumlahnya sangat kecil), dan pilihan D memuat helium serta alumunium yang bukan unsur utama tubuh."],
+ ks:"Jawaban: B. Oksigen, karbon dan hidrogen."},
+
+{g:1,
+ q:"Lambang dari unsur Karbon adalah ....",
+ o:["K","Kr","C","Cr"], a:2,
+ pb:["Karbon berasal dari kata Latin carbo, lambangnya diambil dari huruf pertama: C.",
+     "K adalah lambang kalium, Kr adalah kripton, dan Cr adalah kromium."],
+ ks:"Jawaban: C. C."},
+
+{g:1,
+ q:"Zat berikut yang merupakan unsur adalah ....",
+ o:["Garam","Karbon","Air","Alkohol"], a:1,
+ pb:["Unsur adalah zat yang hanya tersusun dari satu jenis atom.",
+     "Garam (NaCl) tersusun dari natrium dan klorin, sehingga merupakan senyawa.",
+     "Air (H₂O) tersusun dari hidrogen dan oksigen, sehingga merupakan senyawa.",
+     "Alkohol (C₂H₅OH) tersusun dari karbon, hidrogen, dan oksigen, sehingga merupakan senyawa.",
+     "Karbon (C) hanya tersusun dari atom karbon, jadi merupakan unsur."],
+ ks:"Jawaban: B. Karbon."},
+
+{g:1,
+ q:"Fe adalah lambang dari unsur ....",
+ o:["Emas","Besi","Air","Fluorin"], a:1,
+ pb:["Lambang Fe diambil dari nama Latin besi, yaitu Ferrum.",
+     "Emas berlambang Au dan fluorin berlambang F.",
+     "Air bukan unsur karena tersusun dari hidrogen dan oksigen (H₂O)."],
+ ks:"Jawaban: B. Besi."},
+
+{g:2,
+ q:"Zat murni yang terbentuk dari dua atau lebih unsur melalui reaksi kimia dinamakan ....",
+ o:["Asam","Unsur","Elektroda","Senyawa"], a:3,
+ pb:["Jika dua unsur atau lebih bergabung melalui reaksi kimia dengan perbandingan massa yang tetap, terbentuk zat baru yang disebut senyawa.",
+     "Contoh: hidrogen + oksigen menjadi air (H₂O); natrium + klorin menjadi garam dapur (NaCl).",
+     "Unsur hanya tersusun dari satu jenis atom, sedangkan asam adalah golongan senyawa tertentu dan elektroda adalah penghantar arus listrik."],
+ ks:"Jawaban: D. Senyawa."},
+
+{g:2,
+ q:"Air merupakan gabungan antara hidrogen dan ....",
+ o:["Karbon","Nitrogen","Kripton","Oksigen"], a:3,
+ pb:["Rumus kimia air adalah H₂O.",
+     "Rumus tersebut menunjukkan air terdiri atas 2 atom hidrogen (H) dan 1 atom oksigen (O)."],
+ ks:"Jawaban: D. Oksigen."},
+
+{g:1,
+ q:"Setiap benda tersusun dari satu unsur atau lebih, dan setiap unsur memiliki struktur atom yang ....",
+ o:["Sama","Khas","Banyak","Mirip"], a:1,
+ pb:["Atom setiap unsur memiliki jumlah proton (nomor atom) yang berbeda-beda.",
+     "Perbedaan jumlah proton dan elektron membuat struktur atom tiap unsur berbeda dan menjadi ciri pembeda unsur tersebut.",
+     "Karena itu struktur atom setiap unsur bersifat khas, tidak sama dengan unsur lain."],
+ ks:"Jawaban: B. Khas."},
+
+{g:3,
+ q:"Menurut susunan partikelnya, zat dapat dibedakan menjadi ....",
+ o:["Keras, lunak dan elastis","Padat, cair dan gas","Elektrolit, homogen dan heterogen","Campuran, senyawa dan unsur"], a:3,
+ pb:["Penggolongan materi berdasarkan jenis dan susunan partikel penyusunnya menghasilkan tiga golongan.",
+     "Unsur: tersusun dari satu jenis atom. Senyawa: dua unsur atau lebih yang bergabung secara kimia. Campuran: dua zat atau lebih yang bercampur secara fisik.",
+     "Keras-lunak-elastis adalah sifat benda, padat-cair-gas adalah wujud zat, dan elektrolit serta homogen-heterogen adalah penggolongan lain (kemampuan menghantar listrik dan keseragaman campuran)."],
+ ks:"Jawaban: D. Campuran, senyawa, dan unsur."},
+
+{g:2,
+ q:"Garam dapur mempunyai lambang ....",
+ o:["NaHO","NaCl","NaCH","HSO"], a:1,
+ pb:["Garam dapur adalah natrium klorida.",
+     "Natrium berlambang Na dan klorin berlambang Cl, sehingga rumusnya NaCl.",
+     "Pilihan lain bukan rumus garam dapur."],
+ ks:"Jawaban: B. NaCl."},
+
+{g:1,
+ q:"Berikut ini yang termasuk unsur logam adalah ....",
+ o:["Besi, seng dan hidrogen","Oksigen, nitrogen dan karbon","Seng, besi dan tembaga","Kripton, tembaga dan oksigen"], a:2,
+ pb:["Periksa tiap pilihan: semua zat di dalamnya harus berupa logam.",
+     "Pilihan A memuat hidrogen yang nonlogam. Pilihan B seluruhnya nonlogam. Pilihan D memuat kripton (gas mulia) dan oksigen (nonlogam).",
+     "Pilihan C: seng (Zn), besi (Fe), dan tembaga (Cu) semuanya logam."],
+ ks:"Jawaban: C. Seng, besi dan tembaga."},
+
+{g:2,
+ q:"Unsur-unsur penyusun gula adalah ....",
+ o:["Karbon dan hidrogen","Nitrogen, karbon dan helium","Karbon dan air","Karbon, oksigen dan hidrogen"], a:3,
+ pb:["Gula pasir adalah sukrosa dengan rumus C₁₂H₂₂O₁₁.",
+     "Rumus itu menunjukkan gula tersusun atas unsur karbon (C), hidrogen (H), dan oksigen (O).",
+     "Air bukan unsur, sedangkan nitrogen dan helium bukan penyusun gula."],
+ ks:"Jawaban: D. Karbon, oksigen dan hidrogen."},
+
+{g:3,
+ q:"Perbedaan senyawa dan campuran adalah dari penyusunnya. Senyawa disusun oleh unsur-unsur, sedangkan campuran disusun oleh ....",
+ o:["Atom","Zat","Partikel","Molekul"], a:1,
+ pb:["Senyawa terbentuk dari penggabungan unsur-unsur melalui reaksi kimia.",
+     "Campuran terbentuk dari pencampuran zat-zat (bisa unsur, senyawa, atau keduanya) secara fisik tanpa reaksi kimia.",
+     "Atom, partikel, dan molekul adalah satuan ukuran partikel materi, bukan tingkatan penyusun campuran."],
+ ks:"Jawaban: B. Zat."},
+
+{g:1,
+ q:"Unsur yang bentuknya cair contohnya adalah ....",
+ o:["Oksigen","Karbon","Raksa","Cuka"], a:2,
+ pb:["Pada suhu kamar, oksigen berwujud gas dan karbon berwujud padat.",
+     "Cuka berwujud cair, tetapi cuka adalah campuran (larutan asam asetat dalam air), bukan unsur.",
+     "Raksa (Hg) adalah unsur logam yang berwujud cair pada suhu kamar."],
+ ks:"Jawaban: C. Raksa."},
+
+{g:1,
+ q:"Unsur dalam tubuh manusia yang paling besar adalah ....",
+ o:["Karbon","Hidrogen","Oksigen","Kalsium"], a:2,
+ pb:["Sekitar 60–70% tubuh manusia adalah air (H₂O), dan oksigen merupakan penyusun terbesar massa air.",
+     "Persentase massa tubuh: oksigen ±65%, karbon ±18%, hidrogen ±10%.",
+     "Kalsium hanya sekitar 1,5% dari massa tubuh."],
+ ks:"Jawaban: C. Oksigen."},
+
+{g:2,
+ q:"Di bawah ini yang tidak termasuk senyawa adalah ....",
+ o:["Besi","Urea","Natrium Klorida","Karbondioksida"], a:0,
+ pb:["Periksa apakah tiap zat tersusun dari lebih dari satu jenis unsur.",
+     "Urea CO(NH₂)₂ tersusun dari C, O, N, H. Natrium klorida (NaCl) tersusun dari Na dan Cl. Karbondioksida (CO₂) tersusun dari C dan O. Ketiganya senyawa.",
+     "Besi (Fe) hanya tersusun dari satu jenis atom, sehingga merupakan unsur."],
+ ks:"Jawaban: A. Besi."},
+
+{g:4,
+ q:"Asam klorida adalah salah satu contoh senyawa yang dimanfaatkan untuk ....",
+ o:["Pemanis makanan","Obat maag","Pembersih lantai","Bahan bangunan"], a:2,
+ pb:["Asam klorida (HCl) adalah asam kuat yang dapat melarutkan kotoran dan kerak.",
+     "Karena itu HCl dipakai sebagai bahan pembersih lantai, keramik, dan kamar mandi.",
+     "Obat maag justru memakai zat basa untuk menetralkan asam lambung, pemanis makanan memakai zat seperti sakarin, dan bahan bangunan memakai semen atau batu kapur."],
+ ks:"Jawaban: C. Pembersih lantai."},
+
+{g:2,
+ q:"Senyawa biner merupakan senyawa yang tersusun dari ....",
+ o:["Tiga unsur","Dua unsur","Empat unsur","Lima unsur"], a:1,
+ pb:["Awalan \"bi-\" berarti dua.",
+     "Senyawa biner adalah senyawa yang tersusun dari dua jenis unsur. Contoh: H₂O (H dan O), NaCl (Na dan Cl), CO₂ (C dan O)."],
+ ks:"Jawaban: B. Dua unsur."},
+
+{g:3,
+ q:"Stainless steel merupakan benda yang terbentuk dengan penyusun logam berupa ....",
+ o:["Besi, krom dan perak","Perak, besi dan kripton","Besi, krom dan nikel","Tembaga, timah dan timbal"], a:2,
+ pb:["Stainless steel (baja tahan karat) adalah paduan logam, yaitu campuran homogen beberapa logam.",
+     "Penyusun utamanya adalah besi (Fe), krom (Cr), dan nikel (Ni).",
+     "Krom dan nikel membuat baja tidak mudah berkarat."],
+ ks:"Jawaban: C. Besi, krom dan nikel."},
+
+{g:2,
+ q:"Berikut ini yang BUKAN merupakan sifat dari senyawa adalah ....",
+ o:["Tersusun dari dua jenis unsur atau lebih secara kimia","Dapat diuraikan menjadi unsur-unsur penyusunnya dengan reaksi kimia biasa","Tersusun dari satu jenis atom","Perbandingan massa unsur-unsur penyusunnya selalu tetap"], a:2,
+ pb:["Sifat senyawa: tersusun dari dua unsur atau lebih yang bergabung secara kimia (pilihan A).",
+     "Senyawa dapat diuraikan menjadi unsur-unsurnya melalui reaksi kimia (pilihan B).",
+     "Perbandingan massa unsur penyusun senyawa selalu tetap (pilihan D), sesuai hukum perbandingan tetap.",
+     "\"Tersusun dari satu jenis atom\" adalah ciri unsur, bukan senyawa (pilihan C)."],
+ ks:"Jawaban: C. Tersusun dari satu jenis atom."},
+
+{g:3,
+ q:"Campuran yang serba sama dan masing-masing zat penyusunnya tidak dapat dibedakan dinamakan ....",
+ o:["Homogen","Heterogen","Elektrolit","Divergen"], a:0,
+ pb:["Campuran homogen: partikel tercampur merata sehingga tampak seragam dan zat penyusunnya tidak dapat dibedakan. Contoh: larutan gula, udara bersih.",
+     "Campuran heterogen: bagian-bagiannya masih dapat dibedakan. Contoh: air dan pasir.",
+     "Elektrolit berkaitan dengan penghantar listrik, dan divergen bukan istilah penggolongan campuran."],
+ ks:"Jawaban: A. Homogen."},
+
+{g:4,
+ q:"Senyawa yang mempunyai fungsi sebagai pendingin adalah ....",
+ o:["Asam asetat","Aspirin","Soda kue","Amoniak"], a:3,
+ pb:["Amoniak (NH₃) mudah diubah dari gas menjadi cair dan menyerap panas saat menguap.",
+     "Sifat ini membuatnya dipakai sebagai zat pendingin pada mesin pendingin, misalnya pabrik es.",
+     "Asam asetat adalah bahan cuka, aspirin adalah obat, dan soda kue adalah pengembang kue."],
+ ks:"Jawaban: D. Amoniak."},
+
+{g:4,
+ q:"Urea merupakan senyawa yang banyak digunakan sebagai ....",
+ o:["Bahan sabun","Bahan makanan","Pupuk sawah","Racun serangga"], a:2,
+ pb:["Urea CO(NH₂)₂ mengandung nitrogen dalam jumlah tinggi.",
+     "Nitrogen adalah unsur hara yang sangat dibutuhkan tanaman untuk tumbuh.",
+     "Karena itu urea banyak dipakai sebagai pupuk, antara lain untuk tanaman padi di sawah."],
+ ks:"Jawaban: C. Pupuk sawah."},
+
+{g:2,
+ q:"Senyawa yang tersusun dari tiga unsur yang berbeda dinamakan senyawa ....",
+ o:["Biner","Terner","Center","Campuran"], a:1,
+ pb:["Senyawa biner tersusun dari dua unsur, sedangkan senyawa terner tersusun dari tiga unsur.",
+     "Contoh senyawa terner: H₂SO₄ (H, S, O) dan NaOH (Na, O, H).",
+     "\"Center\" bukan istilah kimia untuk jenis senyawa, dan campuran bukan senyawa."],
+ ks:"Jawaban: B. Terner."},
+
+{g:4,
+ q:"Kalsium karbonat banyak dimanfaatkan manusia sebagai ....",
+ o:["Bahan bangunan","Bahan pembuat kue","Bahan minuman","Bahan elektrolit"], a:0,
+ pb:["Kalsium karbonat (CaCO₃) adalah penyusun utama batu kapur dan marmer.",
+     "Batu kapur dan marmer dipakai sebagai bahan bangunan, serta bahan baku semen dan kapur.",
+     "Pengembang kue adalah soda kue (natrium bikarbonat), bukan kalsium karbonat."],
+ ks:"Jawaban: A. Bahan bangunan."},
+
+{g:3,
+ q:"Logam adalah contoh campuran homogen yang berwujud ....",
+ o:["Cair","Gas","Padat","Elastis"], a:2,
+ pb:["Yang dimaksud adalah paduan logam (alloy), misalnya perunggu, kuningan, dan baja.",
+     "Paduan dibuat dengan melelehkan beberapa logam, mencampurnya, lalu mendinginkannya.",
+     "Setelah dingin, hasilnya campuran yang merata (homogen) dan berwujud padat.",
+     "Elastis adalah sifat benda, bukan wujud zat."],
+ ks:"Jawaban: C. Padat."},
+
+{g:4,
+ q:"Emas, perak, dan tembaga adalah contoh logam yang banyak dimanfaatkan manusia sebagai ....",
+ o:["Bahan bangunan","Perhiasan","Campuran makanan","Bahan pembersih"], a:1,
+ pb:["Emas, perak, dan tembaga mengilap, tidak mudah berkarat (emas dan perak), dan mudah dibentuk.",
+     "Sifat-sifat itu membuatnya banyak dibuat menjadi perhiasan.",
+     "Ketiganya bukan bahan makanan maupun pembersih."],
+ ks:"Jawaban: B. Perhiasan."},
+
+{g:4,
+ q:"Alumunium diperoleh dari ....",
+ o:["Bijih besi","Bijih emas","Bijih bauksit","Bijih tembaga"], a:2,
+ pb:["Alumunium tidak ditemukan bebas di alam.",
+     "Bahan bakunya adalah bijih bauksit, yang mengandung alumunium oksida (Al₂O₃).",
+     "Bijih besi menghasilkan besi, bijih emas menghasilkan emas, dan bijih tembaga menghasilkan tembaga."],
+ ks:"Jawaban: C. Bijih bauksit."},
+
+{g:4,
+ q:"Asam sulfat banyak dimanfaatkan manusia untuk ....",
+ o:["Pengisi baterai","Pengisi aki","Bahan bangunan","Pengembang roti"], a:1,
+ pb:["Asam sulfat (H₂SO₄) adalah asam kuat.",
+     "Larutan asam sulfat dipakai sebagai cairan pengisi aki (accu) kendaraan, yang berperan sebagai elektrolit.",
+     "Baterai kering memakai pasta lain (misalnya amonium klorida), sedangkan pengembang roti adalah ragi atau soda kue."],
+ ks:"Jawaban: B. Pengisi aki."},
+
+{g:4,
+ q:"Senyawa aspirin banyak dimanfaatkan manusia sebagai ....",
+ o:["Obat sakit perut","Obat maag","Obat sakit kepala","Obat sakit otot"], a:2,
+ pb:["Aspirin adalah obat pereda nyeri (analgesik) dan penurun demam.",
+     "Karena itu aspirin umum dipakai sebagai obat sakit kepala.",
+     "Obat maag bekerja menetralkan asam lambung, sehingga fungsinya berbeda."],
+ ks:"Jawaban: C. Obat sakit kepala."},
+
+{g:1,
+ q:"Contoh wujud unsur yang berupa gas adalah ....",
+ o:["Emas","Raksa","Besi","Oksigen"], a:3,
+ pb:["Pada suhu kamar, emas dan besi berwujud padat, sedangkan raksa berwujud cair.",
+     "Oksigen (O₂) berwujud gas, sehingga merupakan contoh unsur berwujud gas."],
+ ks:"Jawaban: D. Oksigen."},
+
+{g:3,
+ q:"Di antara zat berikut, yang tergolong campuran adalah ....",
+ o:["Perunggu","Emas","Perak","Platina"], a:0,
+ pb:["Campuran terdiri atas dua zat atau lebih yang tidak bergabung secara kimia.",
+     "Emas, perak, dan platina masing-masing adalah unsur (zat tunggal).",
+     "Perunggu adalah paduan tembaga dan timah, sehingga tergolong campuran."],
+ ks:"Jawaban: A. Perunggu."},
+
+{g:4,
+ q:"Berikut ini yang tidak termasuk sifat dari alumunium adalah ....",
+ o:["Tahan panas","Konduktor listrik","Tahan karat","Elastis"], a:3,
+ pb:["Sifat alumunium: ringan, penghantar (konduktor) listrik dan panas yang baik, serta tahan karat karena terlapisi lapisan oksida tipis.",
+     "Penghantar panas yang baik dan titik leleh yang cukup tinggi membuat alumunium dipakai untuk alat masak (pilihan A).",
+     "Alumunium tidak bersifat elastis seperti karet atau pegas (pilihan D)."],
+ ks:"Jawaban: D. Elastis."},
+
+{g:3,
+ q:"Persen volume menyatakan jumlah mL suatu zat dalam .... campuran.",
+ o:["10 mL","100 mL","1000 mL","10.000 mL"], a:1,
+ pb:["Persen volume = (volume zat ÷ volume seluruh campuran) × 100%.",
+     "Kata \"persen\" berarti \"per seratus\".",
+     "Jadi persen volume menyatakan jumlah mL zat dalam setiap 100 mL campuran. Contoh: alkohol 70% berarti 70 mL alkohol dalam 100 mL larutan."],
+ ks:"Jawaban: B. 100 mL."},
+
+{g:4,
+ q:"Unsur kalsium banyak ditemukan dalam ....",
+ o:["Garam dapur","Air","Batu kapur","Batubara"], a:2,
+ pb:["Batu kapur tersusun atas kalsium karbonat (CaCO₃), sehingga banyak mengandung kalsium.",
+     "Garam dapur mengandung natrium dan klorin, air mengandung hidrogen dan oksigen, dan batubara terutama mengandung karbon."],
+ ks:"Jawaban: C. Batu kapur."},
+
+{g:3,
+ q:"Sebanyak 100 mL minyak tanah dicampur dengan 100 mL bensin, maka kadar minyak tanah dalam larutan tersebut sebesar ....",
+ o:["20 %","30 %","40 %","50 %"], a:3,
+ pb:["Diketahui: volume minyak tanah = 100 mL dan volume bensin = 100 mL.",
+     "Volume campuran = 100 + 100 = 200 mL.",
+     "Kadar minyak tanah = (100 ÷ 200) × 100%.",
+     "Kadar minyak tanah = 0,5 × 100% = 50%."],
+ ks:"Jawaban: D. 50%."},
+
+{g:1,
+ q:"Logam yang paling umum terdapat pada kulit bumi adalah ....",
+ o:["Emas","Besi","Kripton","Alumunium"], a:3,
+ pb:["Kripton bukan logam, melainkan gas mulia.",
+     "Emas termasuk logam yang langka di kulit bumi.",
+     "Besi adalah logam terbanyak kedua, sedangkan alumunium adalah logam yang paling melimpah di kulit bumi (sekitar 8% massa)."],
+ ks:"Jawaban: D. Alumunium."}
+];
+
+/* ---------- state ---------- */
+const TOTAL = Q.length;
+let cur = 0;
+let userAnswers = new Array(TOTAL).fill(-1);
+
+const $ = id => document.getElementById(id);
+const answeredCount = () => userAnswers.filter(x => x !== -1).length;
+
+/* ---------- alur kuis ---------- */
+function startQuiz() {
+  $("start-screen").style.display = "none";
+  $("quiz-screen").style.display = "block";
+  loadQ();
+}
+
+const scoreNow = () => userAnswers.reduce((n, a, i) => n + (a === Q[i].a ? 1 : 0), 0);
+const updatePill = () => { $("answered-pill").textContent = "Skor: " + scoreNow() + " / " + TOTAL; };
+
+function loadQ() {
+  const q = Q[cur];
+  const grp = GROUPS[q.g];
+
+  $("prog-fill").style.width = ((cur + 1) / TOTAL * 100) + "%";
+  $("q-counter").textContent = (cur + 1) + " / " + TOTAL;
+  updatePill();
+  $("q-num").textContent = "Soal " + (cur + 1);
+  $("q-title").textContent = q.q;
+
+  const badge = $("topic-badge");
+  badge.textContent = grp.label;
+  badge.className = "topic-badge " + grp.cls;
+
+  const box = $("options");
+  box.innerHTML = "";
+  q.o.forEach((text, i) => {
+    const el = document.createElement("div");
+    el.className = "opt";
+    el.innerHTML = `<span class="opt-key">${KEYS[i]}</span><span class="opt-text">${text}</span>`;
+    el.onclick = () => pick(i);
+    box.appendChild(el);
+  });
+
+  $("prev-btn").disabled = cur === 0;
+  $("next-btn").textContent = cur === TOTAL - 1 ? "✅ Selesai & Lihat Hasil" : "Selanjutnya →";
+  renderFeedback();
+}
+
+/* Menampilkan status soal aktif: belum dijawab, atau sudah dijawab beserta pembahasan */
+function renderFeedback() {
+  const q = Q[cur];
+  const ua = userAnswers[cur];
+  const fb = $("feedback");
+  const opts = document.querySelectorAll(".opt");
+
+  if (ua === -1) {
+    fb.className = "feedback";
+    fb.innerHTML = "";
+    $("next-btn").disabled = true;
+    $("hint-txt").textContent = "Pilih satu jawaban";
+    return;
+  }
+
+  const ok = ua === q.a;
+  opts.forEach((el, i) => {
+    el.classList.add("locked");
+    el.classList.toggle("correct", i === q.a);
+    el.classList.toggle("wrong", i === ua && !ok);
+  });
+
+  const steps = q.pb.map((t, n) =>
+    `<div class="step"><span class="step-num">${n + 1}</span><span class="step-text">${t}</span></div>`).join("");
+  fb.className = "feedback show " + (ok ? "ok" : "bad");
+  fb.innerHTML =
+    `<div class="fb-head">${ok ? "✅ Jawabanmu benar!" : "❌ Jawabanmu belum tepat"}</div>` +
+    (ok ? "" : `<div class="fb-key">Jawaban yang benar: <strong>${KEYS[q.a]}. ${q.o[q.a]}</strong></div>`) +
+    `<div class="fb-title">📖 Pembahasan Langkah demi Langkah</div>${steps}` +
+    `<div class="kesimpulan"><span>✅</span><span class="kesimpulan-text">${q.ks}</span></div>`;
+
+  $("next-btn").disabled = false;
+  $("hint-txt").textContent = ok ? "Lanjut ke soal berikutnya" : "Baca pembahasan, lalu lanjut";
+}
+
+function pick(i) {
+  if (userAnswers[cur] !== -1) return;          // jawaban terkunci setelah dipilih
+  userAnswers[cur] = i;
+  updatePill();
+  renderFeedback();
+  $("feedback").scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function prevQ() { if (cur > 0) { cur--; loadQ(); } }
+
+function nextQ() {
+  if (cur < TOTAL - 1) { cur++; loadQ(); }
+  else showScore();
+}
+
+/* ---------- hasil & pembahasan ---------- */
+function showScore() {
+  $("quiz-screen").style.display = "none";
+  $("score-screen").style.display = "block";
+
+  const perGroup = {1:{c:0,t:0}, 2:{c:0,t:0}, 3:{c:0,t:0}, 4:{c:0,t:0}};
+  let correct = 0;
+  Q.forEach((q, i) => {
+    perGroup[q.g].t++;
+    if (userAnswers[i] === q.a) { correct++; perGroup[q.g].c++; }
+  });
+
+  const pct = Math.round(correct / TOTAL * 100);
+  $("score-big").textContent = pct;
+  $("s-benar").textContent = correct;
+  $("s-salah").textContent = TOTAL - correct;
+  $("s-pct").textContent = pct + "%";
+
+  const trophy = $("trophy");
+  let msg, sub;
+  if (pct === 100)    { trophy.textContent = "🏆"; trophy.className = "trophy gold";   msg = "Sempurna! Luar Biasa! 🎉"; sub = "Semua soal dijawab dengan benar."; }
+  else if (pct >= 80) { trophy.textContent = "🥇"; trophy.className = "trophy gold";   msg = "Sangat Bagus! 👏";         sub = "Pemahaman materi unsur, senyawa, dan campuran sudah sangat baik."; }
+  else if (pct >= 65) { trophy.textContent = "🥈"; trophy.className = "trophy silver"; msg = "Bagus! Terus Semangat!";    sub = "Beberapa bagian masih perlu diperkuat. Pelajari pembahasannya."; }
+  else if (pct >= 50) { trophy.textContent = "🥉"; trophy.className = "trophy bronze"; msg = "Cukup, Masih Bisa Lebih Baik!"; sub = "Baca pembahasan soal yang salah dengan teliti."; }
+  else                { trophy.textContent = "📚"; trophy.className = "trophy bronze"; msg = "Ayo Belajar Lagi 💪";       sub = "Pelajari ulang materi, lalu coba kuis ini kembali."; }
+  $("score-msg").textContent = msg;
+  $("score-sub").textContent = sub;
+
+  $("tp-bars").innerHTML = Object.keys(GROUPS).map(k => {
+    const d = perGroup[k];
+    const p = d.t ? Math.round(d.c / d.t * 100) : 0;
+    return `<div class="tp-row">
+      <span class="tp-label">${GROUPS[k].label}</span>
+      <div class="tp-track"><div class="tp-fill ${GROUPS[k].fill}" style="width:${p}%"></div></div>
+      <span class="tp-score">${d.c}/${d.t}</span>
+    </div>`;
+  }).join("");
+
+  $("review-list").innerHTML = Q.map((q, i) => {
+    const ua = userAnswers[i];
+    const ok = ua === q.a;
+    const yours = ua !== -1
+      ? `<div class="ans-row"><span class="ans-label ${ok ? "correct" : "wrong"}">Jawabanmu :</span><span class="ans-text">${KEYS[ua]}. ${q.o[ua]}</span></div>`
+      : `<div class="ans-row"><span class="ans-label wrong">Jawabanmu :</span><span class="ans-text">Tidak dijawab</span></div>`;
+    const key = `<div class="ans-row"><span class="ans-label correct">Kunci Jawaban :</span><span class="ans-text">${KEYS[q.a]}. ${q.o[q.a]}</span></div>`;
+    const steps = q.pb.map((s, n) => `<div class="step"><span class="step-num">${n + 1}</span><span class="step-text">${s}</span></div>`).join("");
+    return `<div class="review-item ${ok ? "correct" : "wrong"}">
+      <div class="review-header">
+        <div class="review-badge">${ok ? "✓" : "✗"}</div>
+        <div class="review-q"><span class="soal-num">Soal ${i + 1} — ${GROUPS[q.g].label}</span>${q.q}</div>
+      </div>
+      <div class="review-body">
+        <div class="ans-block">${yours}${key}</div>
+        <div class="pembahasan-box">
+          <span class="pb-title">📖 Pembahasan Langkah demi Langkah</span>
+          ${steps}
+          <div class="kesimpulan"><span>✅</span><span class="kesimpulan-text">${q.ks}</span></div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function restartQuiz() {
+  cur = 0;
+  userAnswers = new Array(TOTAL).fill(-1);
+  $("score-screen").style.display = "none";
+  $("quiz-screen").style.display = "block";
+  loadQ();
+}
+</script>
+</body>
+</html>
